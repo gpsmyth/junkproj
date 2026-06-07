@@ -1,1 +1,3 @@
 Making another change
+Addinng an error message for test for git --amend
+Using force-with-lease to push again a newly amend
