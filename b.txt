@@ -1,0 +1,2 @@
+Adding normal text for b
+Changing b file as part of git rebase 3 commits back
