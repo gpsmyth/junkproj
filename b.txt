@@ -1,2 +1,2 @@
-Adding normal text for b
+Adding normal text for b, making a remote edit
 Changing b file as part of git rebase 3 commits back
