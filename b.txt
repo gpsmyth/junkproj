@@ -2,3 +2,4 @@ Alice and Bob's agreed version of the feature
 Adding normal text for b, making a reconciled change
 Changing b file as part of git rebase 3 commits back
 Charlie's important update to b.txt
+Bob's task B feature
