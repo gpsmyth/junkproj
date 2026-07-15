@@ -1,0 +1,41 @@
+name: Branch Name Check
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'central'
+
+permissions:
+  contents: read
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name format
+        run: |
+          BRANCH=${GITHUB_REF#refs/heads/}
+          echo "Branch name: $BRANCH"
+
+          # Allow central itself through
+          if [[ "$BRANCH" == "central" ]]; then
+            echo "✅ central branch — skipping name check"
+            exit 0
+          fi
+
+          # Enforce feature/* naming pattern
+          if [[ ! "$BRANCH" =~ ^feature/[a-z0-9-]+$ ]]; then
+            echo "❌ Branch '$BRANCH' violates naming convention"
+            echo "Required pattern: feature/[a-z0-9-]+"
+            echo "Examples of valid names:"
+            echo "  feature/alice-task"
+            echo "  feature/update-readme"
+            echo "Examples of invalid names:"
+            echo "  feature/Alice_Task  (uppercase/underscore)"
+            echo "  feature/MY FEATURE  (spaces)"
+            echo "  my-feature          (missing feature/ prefix)"
+            exit 1
+          fi
+
+          echo "✅ Branch name '$BRANCH' is valid"
