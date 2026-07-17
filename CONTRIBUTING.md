@@ -17,11 +17,11 @@ main
 ```
 
 ## Branch Naming Convention
-All feature branches must follow the pattern: `feature/[a-z0-9-]+`
-Examples:
-  ✅ feature/alice-task
-  ✅ feature/update-readme
-  ❌ feature/Alice_Task
+All feature branches must follow the pattern: `feature/[a-z0-9-]+`  
+Examples:  
+  ✅ feature/alice-task  
+  ✅ feature/update-readme  
+  ❌ feature/Alice_Task  
   ❌ feature/MY FEATURE
 
   
