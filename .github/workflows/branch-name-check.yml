@@ -2,8 +2,8 @@ name: Branch Name Check
 
 on:
   push:
-    branches:
-      - 'feature/**'
+    branches-ignore:
+      - 'main'
       - 'central'
 
 permissions:
@@ -18,24 +18,20 @@ jobs:
           BRANCH=${GITHUB_REF#refs/heads/}
           echo "Branch name: $BRANCH"
 
-          # Allow central itself through
-          if [[ "$BRANCH" == "central" ]]; then
-            echo "✅ central branch — skipping name check"
+          # Valid patterns
+          if [[ "$BRANCH" =~ ^feature/[a-z0-9-]+$ ]] || \
+             [[ "$BRANCH" =~ ^fix/[a-z0-9-]+$ ]] || \
+             [[ "$BRANCH" =~ ^chore/[a-z0-9-]+$ ]] || \
+             [[ "$BRANCH" =~ ^docs/[a-z0-9-]+$ ]]; then
+            echo "✅ Branch name '$BRANCH' is valid"
             exit 0
           fi
 
-          # Enforce feature/* naming pattern
-          if [[ ! "$BRANCH" =~ ^feature/[a-z0-9-]+$ ]]; then
-            echo "❌ Branch '$BRANCH' violates naming convention"
-            echo "Required pattern: feature/[a-z0-9-]+"
-            echo "Examples of valid names:"
-            echo "  feature/alice-task"
-            echo "  feature/update-readme"
-            echo "Examples of invalid names:"
-            echo "  feature/Alice_Task  (uppercase/underscore)"
-            echo "  feature/MY FEATURE  (spaces)"
-            echo "  my-feature          (missing feature/ prefix)"
-            exit 1
-          fi
+          echo "❌ Branch '$BRANCH' violates naming convention"
+          echo "Valid patterns:"
+          echo "  feature/[a-z0-9-]+"
+          echo "  fix/[a-z0-9-]+"
+          echo "  chore/[a-z0-9-]+"
+          echo "  docs/[a-z0-9-]+"
+          exit 1
 
-          echo "✅ Branch name '$BRANCH' is valid"
